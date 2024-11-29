@@ -1,0 +1,62 @@
+<!-- backend/templates/edit_book.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑图书 - 在线图书管理系统</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin-top: 30px;
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    {{template "navbar.html" .}}
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 class="card-title">编辑图书</h2>
+                <form action="/books/{{.book.ID}}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <!-- 方法覆盖，模拟PUT请求 -->
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">标题</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{.book.Title}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">作者</label>
+                        <input type="text" class="form-control" id="author" name="author" value="{{.book.Author}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">描述</label>
+                        <textarea class="form-control" id="description" name="description" rows="3">{{.book.Description}}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">数量</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="{{.book.Quantity}}" required min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pdf" class="form-label">PDF文件</label>
+                        <input type="file" class="form-control" id="pdf" name="pdf" accept="application/pdf">
+                        {{if .book.PdfPath}}
+                            <div class="form-text">当前上传的文件: <a href="/{{.book.PdfPath}}" target="_blank">下载PDF</a></div>
+                        {{end}}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">更新</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入Bootstrap JS和依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
